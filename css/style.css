@@ -1,0 +1,47 @@
+/* CUSTOM PROPERTIES */
+:root {
+    --header-height: 60px;
+    --footer-height: 50px;
+    --bg-main: rgb(127 255 212);
+}
+
+/* APP */
+.app {
+    height: 100vh;
+    width: 100%;
+}
+
+/* HEADER */
+header {
+    height: var(--header-height);
+}
+
+/* MAIN */
+main {
+    width: 100%;
+    height: calc(100% - (var(--footer-height) + var(--header-height)));
+    background-color: var(--bg-main);
+}
+
+.wrapper {
+    max-width: 750px;
+    border: 1px solid black;
+}
+
+.cell {
+    aspect-ratio: 1;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightblue {
+    background-color: lightblue;
+}
+
+/* FOOTER */
+footer {
+    height: var(--footer-height);
+}
+
