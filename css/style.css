@@ -28,6 +28,10 @@ main {
     border: 1px solid black;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 .cell {
     aspect-ratio: 1;
     border: 1px solid black;
@@ -39,6 +43,11 @@ main {
 .lightblue {
     background-color: lightblue;
 }
+
+.red {
+    background-color: red;
+}
+
 
 /* FOOTER */
 footer {

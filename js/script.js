@@ -1,13 +1,17 @@
 // Variabili globali per il gioco
 let arrayBombs = [];
-let maxClicks = "";
+let maxClicks 
+let arrayNoBombs
 
 // ESECUZIONE
 function playGame(event) {
+    wrapperElem.classList.remove("hidden");
     event.preventDefault();
     console.log(this);
-    // Impedimento di più creazioni di wrapper 
+    // Impedimento di più creazioni di wrapper e reset arrayNoBombs
+    arrayNoBombs = [];
     wrapperElem.innerHTML = "";
+    resultGame.innerHTML = "";
     // Livelli Difficoltà
     const level = document.getElementById("difficolta").value;
     let numberInnerCell = "";
@@ -54,6 +58,11 @@ const play = document.querySelector(".start");
 play.addEventListener("click", playGame);
 console.log(play);
 
+// Result game
+let resultGame = document.querySelector(".result-game");
+
+
+
 // FUNCTIONS
 /**
  * Description: Funzione per generare le celle con un numero all'interno
@@ -73,8 +82,22 @@ console.log(generateCell(20));
 // Eventi al Click sulla cella
 function myCellClick() {
     console.clear()
-    console.log(this.textContent);
-    this.classList.add("lightblue");
+    const clickedNumber = this.textContent;
+    console.log(clickedNumber);
+    if (arrayBombs.includes(parseInt(clickedNumber))) {
+        resultGame.innerHTML = `<h1 class="text-danger"> Hai perso! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
+        console.log(resultGame);
+        this.classList.add("red");
+    } else {
+        this.classList.add("lightblue");
+        if (!arrayNoBombs.includes(clickedNumber)) {
+            arrayNoBombs.push(clickedNumber);
+            console.log(arrayNoBombs);
+            if (arrayNoBombs.length == maxClicks) {
+                resultGame.innerHTML = `<h1 class="text-success"> Hai vinto! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
+            }
+        }
+    }  
 }
 
 /**
