@@ -2,13 +2,14 @@
 let arrayBombs = [];
 let maxClicks 
 let arrayNoBombs
+// let cellResult
 
 // ESECUZIONE
 function playGame(event) {
     wrapperElem.classList.remove("hidden");
     event.preventDefault();
     console.log(this);
-    // Impedimento di più creazioni di wrapper e reset arrayNoBombs
+    // Impedimento di più creazioni di wrapper e reset arrayNoBombs e resultGame
     arrayNoBombs = [];
     wrapperElem.innerHTML = "";
     resultGame.innerHTML = "";
@@ -41,12 +42,13 @@ function playGame(event) {
     for (let i = 1; i <= numberInnerCell; i++) {
         const numbers = i;
         // console.log(numbers);
-        const cellResult = generateCell(numbers, numbersOfCell);
+        cellResult = generateCell(numbers, numbersOfCell);
         // console.log(cellResult);
         cellResult.addEventListener("click", myCellClick);
         // Assegnazione della cella al wrapper
         wrapperElem.append(cellResult);
     }
+    
 }
 
 // Definizione di wrapper
@@ -70,7 +72,7 @@ let resultGame = document.querySelector(".result-game");
  * @returns {any} div con all'interno un numero
  */
 function generateCell(cellNumber, numbersOfCell) {
- const cell = document.createElement("div");
+    const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.style.width = `calc(100% / ${numbersOfCell})`;
     cell.style.height = `calc(100% / ${numbersOfCell})`;
@@ -84,21 +86,26 @@ function myCellClick() {
     console.clear()
     const clickedNumber = this.textContent;
     console.log(clickedNumber);
+    const cellCounter = document.querySelectorAll(".cell");
+    for (i = 0; i < cellCounter.length; i++) 
     if (arrayBombs.includes(parseInt(clickedNumber))) {
-        resultGame.innerHTML = `<h1 class="text-danger"> Hai perso! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
-        console.log(resultGame);
         this.classList.add("red");
+        resultGame.innerHTML = `<h1 class="text-danger"> Hai perso! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
+        cellCounter[i].removeEventListener("click", myCellClick);
     } else {
         this.classList.add("lightblue");
         if (!arrayNoBombs.includes(clickedNumber)) {
             arrayNoBombs.push(clickedNumber);
             console.log(arrayNoBombs);
+            
             if (arrayNoBombs.length == maxClicks) {
                 resultGame.innerHTML = `<h1 class="text-success"> Hai vinto! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
+                cellCounter[i].removeEventListener("click", myCellClick);
             }
         }
     }  
 }
+
 
 /**
  * Description: Generare un numero random compreso tra min e ax
@@ -126,3 +133,5 @@ function generateArrayBombs (max) {
 }
 // console.clear();
 // console.log(generateArrayBombs(100));
+
+
