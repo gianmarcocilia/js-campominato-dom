@@ -1,7 +1,7 @@
 // Variabili globali per il gioco
-let arrayBombs = [];
-let maxClicks 
-let arrayNoBombs
+let arrayBombs;
+let maxClicks;
+let arrayNoBombs;
 // let cellResult
 
 // ESECUZIONE
@@ -10,6 +10,7 @@ function playGame(event) {
     event.preventDefault();
     console.log(this);
     // Impedimento di più creazioni di wrapper e reset arrayNoBombs e resultGame
+    arrayBombs = [];
     arrayNoBombs = [];
     wrapperElem.innerHTML = "";
     resultGame.innerHTML = "";
@@ -84,25 +85,35 @@ console.log(generateCell(20));
 // Eventi al Click sulla cella
 function myCellClick() {
     console.clear()
-    const clickedNumber = this.textContent;
+    const clickedNumber = parseInt(this.textContent);
     console.log(clickedNumber);
     const cellCounter = document.querySelectorAll(".cell");
-    for (i = 0; i < cellCounter.length; i++) 
-    if (arrayBombs.includes(parseInt(clickedNumber))) {
+    
+    if (arrayBombs.includes(clickedNumber)) {
         this.classList.add("red");
         resultGame.innerHTML = `<h1 class="text-danger"> Hai perso! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
-        cellCounter[i].removeEventListener("click", myCellClick);
+        for (let i = 0; i < cellCounter.length; i++) {
+            const curCell = cellCounter[i];
+            curCell.removeEventListener("click", myCellClick);
+            const curNum = parseInt(curCell.textContent);
+            if (arrayBombs.includes(curNum)) {
+                curCell.classList.add("red");
+            }
+        }
+        
     } else {
         this.classList.add("lightblue");
         if (!arrayNoBombs.includes(clickedNumber)) {
             arrayNoBombs.push(clickedNumber);
             console.log(arrayNoBombs);
-            
-            if (arrayNoBombs.length == maxClicks) {
-                resultGame.innerHTML = `<h1 class="text-success"> Hai vinto! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
-                cellCounter[i].removeEventListener("click", myCellClick);
+        }   
+        if (arrayNoBombs.length === maxClicks) {
+            resultGame.innerHTML = `<h1 class="text-success"> Hai vinto! Il tuo punteggio è: <span class="text-warning">${arrayNoBombs.length}</span></h1>`;
+            for (let i = 0; i < cellCounter.length; i++) {
+                const singleCell = cellCounter[i];
+                singleCell.removeEventListener("click", myCellClick);
             }
-        }
+        }       
     }  
 }
 
